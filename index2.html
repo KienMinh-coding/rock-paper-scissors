@@ -7,20 +7,52 @@
     <title>Document</title>
 </head>
 <body>
+    <div id="finalResult"></div>
+    <div id="displayScore"></div>
     <button id="rock">Rock</button>
     <button id="paper">Paper</button>
     <button id="scissors">Scissors</button>
+    <div id="container"></div>
 <script>
+    const finalResult = document.querySelector('#finalResult');
+    const displayScore = document.querySelector('#displayScore');
     const buttons = document.querySelectorAll('button');
+    let playerScore = 0;
+    let computerScore = 0;
     buttons.forEach((button) => {
         button.addEventListener('click', () => {
-            console.log(button.id);
-        })
-    })
+            const container = document.querySelector('#container');
+
+            const result = document.createElement('p');
+            let playRoundResult = playRound(button.id, computerPlay());
+            result.textContent = playRoundResult;
+            container.appendChild(result);
+            console.log(playRoundResult);
+
+            calcScore(playRoundResult);
+
+            displayScore.textContent = `YOU: ${playerScore} / COMPUTER: ${computerScore}`;
+
+            if(playerScore === 5) {
+                finalResult.textContent = 'You Won';
+                buttons.setAttribute('disabled', 'true');
+            } else if(computerScore === 5) {
+                finalResult.textContent = 'You losed';
+                buttons.setAttribute('disabled', 'true');
+            }
+    })})
     
-    let playOption = ["rock", "paper", "scissors"];
+    function calcScore(score) {
+        if (score.indexOf("Win") === 4) {
+                playerScore++;
+            } 
+        else if (score.indexOf("Lose") === 4) {
+                computerScore++;
+            }
+    }
 
     function computerPlay() {
+        const playOption = ["rock", "paper", "scissors"];
         return playOption[Math.floor(Math.random() * 3)];
     }
 
@@ -29,25 +61,20 @@
     }
 
     function playRound(playerSelection, computerSelection) {
-        let playerSelectionLowerCase = playerSelection.toLowerCase();
     
         switch(true) {
-            case playerSelectionLowerCase === "rock" && computerSelection === "paper":
-            case playerSelectionLowerCase === "paper" && computerSelection === "scissors":
-            case playerSelectionLowerCase === "scissors" && computerSelection === "rock":
-                return `You Lose! ${toCapital(computerSelection)} beats ${toCapital(playerSelectionLowerCase)}`;
+            case playerSelection === "rock" && computerSelection === "paper":
+            case playerSelection === "paper" && computerSelection === "scissors":
+            case playerSelection === "scissors" && computerSelection === "rock":
+                return `You Lose! ${toCapital(computerSelection)} beats ${toCapital(playerSelection)}`;
                 break;
         
-            case playerSelectionLowerCase === "paper" && computerSelection === "rock":
-            case playerSelectionLowerCase === "scissors" && computerSelection === "paper":
-            case playerSelectionLowerCase === "rock" && computerSelection === "scissors":
-                return `You Win! ${toCapital(playerSelectionLowerCase)} beats ${toCapital(computerSelection)}`;
+            case playerSelection === "paper" && computerSelection === "rock":
+            case playerSelection === "scissors" && computerSelection === "paper":
+            case playerSelection === "rock" && computerSelection === "scissors":
+                return `You Win! ${toCapital(playerSelection)} beats ${toCapital(computerSelection)}`;
                 break;
-
-            case playerSelectionLowerCase !== "rock" && playerSelectionLowerCase !== "paper" && playerSelectionLowerCase !== "scissors":
-                return `You have inputed: \"${playerSelection}\". You need to input rock, paper, or scissors.`;
-                break;
-        
+            
             default:
                 return "Draw! Let's play more";
         }
