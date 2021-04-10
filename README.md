@@ -1,5 +1,5 @@
-This is a mini-rock paper scissors game that i have used my self-taught knowledge of JS to create.
+# rock-paper-scissors
 
-You can play it inside a browser's console.
+Rock-paper-scissors game created with JS.
 
-Have fun :)
+[Live Demo 👈](https://kienminh-coding.github.io/rock-paper-scissors/)
